@@ -26,3 +26,14 @@ def test_valid_cell():
     assert board._valid_cell((5,-1)) == False
     assert board._valid_cell((5,11)) == False
     
+
+def test_hit():
+    board = Board()
+    boat = Boat(5,(3,3))
+    board.put_boat(boat)
+
+    for i in range(1,6):
+        board.hit(0)
+        assert boat.hp == 5 - i
+        assert board.boats[0].hp == 5-i
+    assert board.sinked[0] 
