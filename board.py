@@ -44,6 +44,8 @@ class Board :
             return False
         
     def hit(self, indice_boat):
+        if self.sinked[indice_boat]:
+            return
         boat = self.boats[indice_boat]
         sinked = boat.hit()
         if sinked:

@@ -36,4 +36,20 @@ def test_hit():
         board.hit(0)
         assert boat.hp == 5 - i
         assert board.boats[0].hp == 5-i
-    assert board.sinked[0] 
+    assert board.sinked[0]
+    board.hit(0)
+    assert boat.hp == 0
+    assert board.boats[0].hp == 0
+    assert board.sinked[0]
+
+    assert board.cells[3][2] == -2
+    assert board.cells[3][8] == -2
+
+    for i in range(2,9):
+        assert board.cells[2][i] == -2
+        assert board.cells[4][i] == -2
+
+
+
+
+
