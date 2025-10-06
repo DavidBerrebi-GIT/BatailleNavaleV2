@@ -5,7 +5,7 @@ from boat import Boat
 class Board :
     
     def __init__(self):
-        self.cells = [[0 for _ in range(10) ] for _ in range(10)]
+        self.cells = [[-1 for _ in range(10) ] for _ in range(10)]
         self.boats = []
     
     
@@ -16,7 +16,7 @@ class Board :
         x,y = boat.position
         for i in range(boat.length):
             if boat.vertical:
-                self.cells[x+i][y] = 1 << nb
+                self.cells[x+i][y] = nb << 1
                 self._put_forbiden_cells((x+i,y))
             else :
                 self.cells[x][y+i] = 1 << nb
