@@ -3,7 +3,7 @@ class Boat :
         self.length = length
         self.position = position
         self.vertical = vertical
-        self.pv = length
+        self.hp = length
         self.coule = False
        
         self.cells = []
@@ -17,7 +17,7 @@ class Boat :
     
     
     def hit(self):
-        self.pv -=1
-        if self.pv == 0:
+        self.hp -=1
+        if self.hp == 0:
             return True
         return False
