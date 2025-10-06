@@ -13,7 +13,7 @@ class Boat :
             if vertical:
                 self.cells.append((x+i,y))
             else: 
-                self.cells.append((x,y))
+                self.cells.append((x,y+i))
     
     
     def hit(self):
