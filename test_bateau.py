@@ -1,6 +1,6 @@
-from bateau import Bateau
+from boat import Boat
 
 def test_init():
-    bateau = Bateau(2,(5,5),True)
-    assert bateau != None
-    assert bateau.cases == [(5,5),(6,5)]
+    boat = Boat(2,(5,5),True)
+    assert boat != None
+    assert boat.cells == [(5,5),(6,5)]
