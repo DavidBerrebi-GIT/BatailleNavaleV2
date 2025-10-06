@@ -13,4 +13,16 @@ def test_put_boat():
     
     for i in range(5):
         assert board.cells[3][3+i] == 0
+def test_valid_cell():
+    board = Board()
+    
+    for i in range(10):
+        for j in range(10):
+            assert board._valid_cell((i,j))
+    
+    
+    assert board._valid_cell((-1,5)) == False
+    assert board._valid_cell((10,5)) == False
+    assert board._valid_cell((5,-1)) == False
+    assert board._valid_cell((5,11)) == False
     

@@ -3,10 +3,12 @@ from boat import Boat
 
 
 class Board :
-    car = {-1 : "⸳", -2 : "~", 0 : "□", -3 : "▩"}    
+    #-1 case vide, -2 tir dans l'eau, -3 zone interdite à bord d'un bateau, -4 bateau touché, autre nub du navire
+    car = {-1 : "⸳", -2 : "~", -3 : ":", 0 : "□", -4 : "▩"}    
     def __init__(self):
         self.cells = [[-1 for _ in range(10) ] for _ in range(10)]
         self.boats = []
+        self.sinked = []
     
     
     def put_boat(self, boat):
@@ -15,6 +17,7 @@ class Board :
         
         x,y = boat.position
         self.boats.append(boat)
+        self.sinked.append(False)
         for i in range(boat.length):
             if boat.vertical:
                 self.cells[x+i][y] = nb 
@@ -29,8 +32,8 @@ class Board :
         for i in range(-1,2):
             for j in range(-1,2):
                 if self._valid_cell((x+i,y+j)):
-                    if self.cells[x+i][y+j] == 0:
-                        self.cells[x+i][y+j] = 2
+                    if self.cells[x+i][y+j] == -1:
+                        self.cells[x+i][y+j] = -3
     
     
     def _valid_cell(self, cell):
@@ -40,6 +43,23 @@ class Board :
         else:
             return False
         
+    def hit(self, indice_boat):
+        boat = self.boats[indice_boat]
+        sinked = boat.hit()
+        if sinked:
+            self.sink(indice_boat)
+
+    def sink(self, indice_boat):
+        boat = self.boats[indice_boat]
+        self.sinked[indice_boat] = True
+        cells = boat.cells
+        for cell in cells:
+            x,y = cell
+            for i in range(-1,2):
+                for j in range (-1,2):
+                    if self._valid_cell((x+i,y+j)) and self.cells[x+i][y+j] == -3:
+                        self.cells[x+i][y+j] = -2
+
 
     def show(self, hided = True):
         print("\n  ABCDEFGHIJ")
@@ -49,7 +69,7 @@ class Board :
             for y in range(10):
                 valeur = self.cells[x][y]
                 #Le plateau n'affiche pas les navires en partie normal
-                if hided and valeur >= 0:
+                if hided and (valeur >= 0 or valeur == -3):
                     valeur = -1
                 elif valeur >= 0:
                     valeur = 0
