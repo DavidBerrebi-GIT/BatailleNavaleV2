@@ -91,3 +91,8 @@ class Board :
                 print(Board.car[valeur], end="")
         print()
 
+    def lost(self):
+        for sink in self.sinked:
+            if not sink:
+                return False
+        return True

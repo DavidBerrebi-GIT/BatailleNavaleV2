@@ -64,6 +64,20 @@ def test_shoot():
     assert boat.hp == 0
     assert board.sinked[0]
 
+def test_lost():
+    board = Board()
+    boat1 = Boat(2,(0,0))
+    boat2 = Boat(2, (2,0))
+    board.put_boat(boat1)
+    board.put_boat(boat2)
+
+    board.shoot((0,0))
+    board.shoot((0,1))
+    assert board.lost() == False
+
+    board.shoot((2,0))
+    board.shoot((2,1))
+    assert board.lost()
 
 
 
