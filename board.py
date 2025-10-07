@@ -62,6 +62,19 @@ class Board :
                     if self._valid_cell((x+i,y+j)) and self.cells[x+i][y+j] == -3:
                         self.cells[x+i][y+j] = -2
 
+    def shoot(self, position):
+        if not self._valid_cell(position):
+            print("Tir invalide")
+            return
+        x,y = position
+        value = self.cells[x][y]
+        if value >= 0:
+            self.cells[x][y] = -4
+            self.hit(value)
+            
+        else: 
+            self.cells[x][y] = -2
+
 
     def show(self, hided = True):
         print("\n  ABCDEFGHIJ")

@@ -50,6 +50,20 @@ def test_hit():
         assert board.cells[4][i] == -2
 
 
+def test_shoot():
+    board = Board()
+    boat = Boat(2,(0,0))
+    board.put_boat(boat)
+
+    board.shoot((0,0))
+    assert board.cells[0][0] == -4
+    assert boat.hp == 1
+
+    board.shoot((0,1))
+    assert board.cells[0][1] == -4
+    assert boat.hp == 0
+    assert board.sinked[0]
+
 
 
 
