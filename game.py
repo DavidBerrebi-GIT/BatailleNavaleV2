@@ -27,9 +27,9 @@ def boat_input():
 def valid_code_boat(s):
     if s[0] not in "2345":
         return False
-    if s[1].upper not in "HV":
+    if s[1].upper() not in "HV":
         return False
-    if s[2].upper not in "ABCDEFGHIJ":
+    if s[2].upper() not in "ABCDEFGHIJ":
         return False
     if s[3:] not in ["1","2","3","4","5","6","7","8","9","10"]:
         return False
