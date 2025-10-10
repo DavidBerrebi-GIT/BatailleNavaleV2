@@ -94,10 +94,10 @@ def game():
             y = randint(0,9)
             board1.shoot((x,y))
             board1.show(False)
-            if board2.cells[x][y] == -2:
+            if board1.cells[x][y] == -2:
                 print("L'ennemie a raté son tir")
             else:
-                print("Un de nas navire est touché!!")
+                print("Un de nos navire est touché!!")
             if board1.lost():
                 gagnant = 2
         
