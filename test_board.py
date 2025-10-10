@@ -13,6 +13,7 @@ def test_put_boat():
     
     for i in range(5):
         assert board.cells[3][3+i] == 0
+
 def test_valid_cell():
     board = Board()
     
@@ -26,7 +27,6 @@ def test_valid_cell():
     assert board._valid_cell((5,-1)) == False
     assert board._valid_cell((5,11)) == False
     
-
 def test_hit():
     board = Board()
     boat = Boat(5,(3,3))
@@ -48,7 +48,6 @@ def test_hit():
     for i in range(2,9):
         assert board.cells[2][i] == -2
         assert board.cells[4][i] == -2
-
 
 def test_shoot():
     board = Board()
@@ -79,5 +78,14 @@ def test_lost():
     board.shoot((2,1))
     assert board.lost()
 
+def test_valid_boat():
+    board = Board()
+    boat1 = Boat(3,(0,0))
+    boat2 = Boat(2,(0,0))
+    boat3 = Boat(2,(0,3))
 
+    assert board.valid_boat(boat1)
+    board.put_boat(boat1)
 
+    assert not board.valid_boat(boat2)
+    assert not board.valid_boat(boat3)

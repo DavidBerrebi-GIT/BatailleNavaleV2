@@ -96,3 +96,18 @@ class Board :
             if not sink:
                 return False
         return True
+
+    def valid_boat(self, boat):
+        x,y = boat.position
+        i,j = (1,0) if boat.vertical else (0,1)
+        for k in range(boat.length):
+            if self.cells[x + i*k][y + j*k] != -1:
+                return False
+        return True
+
+    def put_random_boat(self, size=2):
+        x = R.randint(0,9)
+        y = R.randint(0,9)
+        vertical = R.random >= 0.5
+
+        boat = Boat(size,(x,y),vertical)
