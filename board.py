@@ -122,6 +122,6 @@ class Board :
         self.put_boat(boat)
     
     def put_random_all_boats(self):
-        list_of_size = [2,2,2,3,3,4,5]
+        list_of_size = [5,4,3,3,2,2,2]
         for size in list_of_size:
             self.put_random_boat(size)
