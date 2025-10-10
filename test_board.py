@@ -82,7 +82,7 @@ def test_valid_boat():
     board = Board()
     boat1 = Boat(3,(0,0))
     boat2 = Boat(2,(0,0))
-    boat3 = Boat(2,(0,3))
+    boat3 = Boat(2,(1,3))
 
     assert board.valid_boat(boat1)
     board.put_boat(boat1)

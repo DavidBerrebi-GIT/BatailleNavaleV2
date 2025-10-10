@@ -101,7 +101,7 @@ class Board :
         x,y = boat.position
         i,j = (1,0) if boat.vertical else (0,1)
         for k in range(boat.length):
-            if self.cells[x + i*k][y + j*k] != -1:
+            if self._valid_cell((x + i*k, y + j*k)) and self.cells[x + i*k][y + j*k] != -1:
                 return False
         return True
 
@@ -109,5 +109,12 @@ class Board :
         x = R.randint(0,9)
         y = R.randint(0,9)
         vertical = R.random >= 0.5
-
         boat = Boat(size,(x,y),vertical)
+
+        while not self.valid_boat(boat):
+            x = R.randint(0,9)
+            y = R.randint(0,9)
+            vertical = R.random >= 0.5
+            boat = Boat(size,(x,y),vertical)
+        
+        self.put_boat(boat)
