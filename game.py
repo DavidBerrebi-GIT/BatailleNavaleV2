@@ -1,6 +1,6 @@
 from board import Board
 from boat import Boat
-
+from random import randint
 
 def input_position(string):
     s = input(string)
@@ -42,6 +42,13 @@ def put_all_boats(board):
             if dic[key] >0:
                 return True
         return False
+
+    rand = input("Placement aléatoire des navires ? [y/n]")
+    if rand == "y":
+        board.put_random_all_boats()
+        print("Les navires ont été posés aléatoirement.")
+        board.show(False)
+        return
     
     while boat_remaining():
         print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
@@ -57,7 +64,7 @@ def put_all_boats(board):
         else:
           dic[size] -= 1
           board.put_boat(boat)
-
+    print("Tous les navire ont été posés.")
 
         
 
@@ -68,6 +75,37 @@ def game():
 
     board2.put_random_all_boats()
     put_all_boats(board1)
+    run = True
+    gagnant = -1
+    while run and gagnant == -1:
+        if turn == 0:
+            board2.show()
+            x,y = shoot_input()
+            board2.shoot((x,y))
+            board2.show()
+            if board2.cells[x][y] == -2:
+                print("Aucun navire touché ")
+            else:
+                print("Navire touché!!")
+            if board2.lost():
+                gagnant = 1
+        else:
+            x = randint(0,9)
+            y = randint(0,9)
+            board1.shoot((x,y))
+            board1.show(False)
+            if board2.cells[x][y] == -2:
+                print("L'ennemie a raté son tir")
+            else:
+                print("Un de nas navire est touché!!")
+            if board1.lost():
+                gagnant = 2
+        
+        turn = 1 - turn
+    if gagnant == 1:
+        print("Bravo, vous avez remporté la bataille")
+    if gagnant == 2:
+        print("Vous avez perdu la bataille...")
 
 
 
