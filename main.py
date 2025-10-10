@@ -35,6 +35,29 @@ def valid_code_boat(s):
         return False
     return True
 
+def put_all_boats(board):
+    dic = {2: 3, 3 : 2, 4: 1, 5:1}
+    def boat_remaining ():
+        for key in dic.keys():
+            if dic[key] >0:
+                return True
+        return False
+    
+    while boat_remaining():
+        print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
+        size, position, vertical = boat_input()
+        if dic[size] == 0:
+            print(f"Tous les navire de taille {size} ont déjà été posés. Choisissez une autre taile de navire")
+            continue
+        boat = Boat(size,position,vertical)
+        if not board.valid_boat(boat):
+            print("La position du navire est invalide.")
+            continue
+        dic[size] -= 1
+        board.put_boat(boat)
+
+
+        
 
 def game():
     board1 = Board()
