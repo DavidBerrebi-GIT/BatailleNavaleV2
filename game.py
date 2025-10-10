@@ -47,15 +47,16 @@ def put_all_boats(board):
         print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
         board.show(False)
         size, position, vertical = boat_input()
+        boat = Boat(size,position,vertical)
         if dic[size] == 0:
             print(f"Tous les navire de taille {size} ont déjà été posés. Choisissez une autre taile de navire")
             continue
-        boat = Boat(size,position,vertical)
         if not board.valid_boat(boat):
             print("La position du navire est invalide.")
             continue
-        dic[size] -= 1
-        board.put_boat(boat)
+        else:
+          dic[size] -= 1
+          board.put_boat(boat)
 
 
         
