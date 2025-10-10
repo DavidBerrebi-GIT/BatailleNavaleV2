@@ -1,5 +1,4 @@
 from board import Board
+import game
 
-board = Board()
-board.put_random_all_boats()
-board.show(False)
+game.game()

@@ -45,6 +45,7 @@ def put_all_boats(board):
     
     while boat_remaining():
         print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
+        board.show()
         size, position, vertical = boat_input()
         if dic[size] == 0:
             print(f"Tous les navire de taille {size} ont déjà été posés. Choisissez une autre taile de navire")
@@ -65,6 +66,7 @@ def game():
     turn = 0
 
     board2.put_random_all_boats()
+    put_all_boats(board1)
 
 
 
