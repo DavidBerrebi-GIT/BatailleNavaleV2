@@ -71,20 +71,21 @@ def put_all_boats(board):
 def game():
     board1 = Board()
     board2 = Board()
-    turn = 0
+    turn = 1
 
     board2.put_random_all_boats()
     put_all_boats(board1)
     run = True
     gagnant = -1
     while run and gagnant == -1:
-        if turn == 0:
+        if turn == 1:
             board2.show()
             x,y = shoot_input()
             board2.shoot((x,y))
             board2.show()
             if board2.cells[x][y] == -2:
                 print("Aucun navire touché ")
+                turn = 2
             else:
                 print("Navire touché!!")
             if board2.lost():
@@ -96,12 +97,13 @@ def game():
             board1.show(False)
             if board1.cells[x][y] == -2:
                 print("L'ennemie a raté son tir")
+                turn = 1
             else:
                 print("Un de nos navire est touché!!")
             if board1.lost():
                 gagnant = 2
         
-        turn = 1 - turn
+        
     if gagnant == 1:
         print("Bravo, vous avez remporté la bataille")
     if gagnant == 2:
