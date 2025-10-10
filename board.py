@@ -3,8 +3,8 @@ from boat import Boat
 
 
 class Board :
-    #-1 case vide, -2 tir dans l'eau, -3 zone interdite à bord d'un bateau, -4 bateau touché, autre nub du navire
-    car = {-1 : "⸳", -2 : "~", -3 : "-", 0 : "□", -4 : "▩"}    
+    #-1 case vide, -2 tir dans l'eau, -3 zone interdite au bord d'un navire, -4 navire touché
+    car = {-1 : " ", -2 : ":", -3 : " ", 0 : "O", -4 : "#"}    
     def __init__(self):
         self.cells = [[-1 for _ in range(10) ] for _ in range(10)]
         self.boats = []

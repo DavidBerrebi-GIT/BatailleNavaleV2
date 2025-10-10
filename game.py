@@ -1,6 +1,7 @@
 from board import Board
 from boat import Boat
 from random import randint
+import time
 
 def input_position(string):
     s = input(string)
@@ -86,10 +87,12 @@ def game():
             if board2.cells[x][y] == -2:
                 print("Aucun navire touché ")
                 turn = 2
+                time.sleep(1)
             else:
                 print("Navire touché!!")
             if board2.lost():
                 gagnant = 1
+            
         else:
             x = randint(0,9)
             y = randint(0,9)
@@ -98,10 +101,13 @@ def game():
             if board1.cells[x][y] == -2:
                 print("L'ennemie a raté son tir")
                 turn = 1
+                time.sleep(1)
             else:
                 print("Un de nos navire est touché!!")
             if board1.lost():
                 gagnant = 2
+        time.sleep(1)
+        
         
         
     if gagnant == 1:

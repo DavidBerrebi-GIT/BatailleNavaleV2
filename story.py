@@ -20,6 +20,8 @@ board.shoot((4,6))
 board.show()
 
 board.shoot((0,0))
-board.show()
+board.show(False)
+
+
 
 
