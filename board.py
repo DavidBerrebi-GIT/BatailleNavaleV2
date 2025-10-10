@@ -4,7 +4,7 @@ from boat import Boat
 
 class Board :
     #-1 case vide, -2 tir dans l'eau, -3 zone interdite à bord d'un bateau, -4 bateau touché, autre nub du navire
-    car = {-1 : "⸳", -2 : "~", -3 : ":", 0 : "□", -4 : "▩"}    
+    car = {-1 : "⸳", -2 : "~", -3 : "-", 0 : "□", -4 : "▩"}    
     def __init__(self):
         self.cells = [[-1 for _ in range(10) ] for _ in range(10)]
         self.boats = []
@@ -101,7 +101,9 @@ class Board :
         x,y = boat.position
         i,j = (1,0) if boat.vertical else (0,1)
         for k in range(boat.length):
-            if self._valid_cell((x + i*k, y + j*k)) and self.cells[x + i*k][y + j*k] != -1:
+            if not self._valid_cell((x + i*k, y + j*k)):
+                return False
+            elif self.cells[x + i*k][y + j*k] != -1:
                 return False
         return True
 
@@ -114,7 +116,7 @@ class Board :
         while not self.valid_boat(boat):
             x = R.randint(0,9)
             y = R.randint(0,9)
-            vertical = R.random >= 0.5
+            vertical = R.random() >= 0.5
             boat = Boat(size,(x,y),vertical)
         
         self.put_boat(boat)
