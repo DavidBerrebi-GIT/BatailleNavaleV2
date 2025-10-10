@@ -125,3 +125,4 @@ class Board :
         list_of_size = [5,4,3,3,2,2,2]
         for size in list_of_size:
             self.put_random_boat(size)
+
