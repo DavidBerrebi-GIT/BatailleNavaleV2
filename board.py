@@ -108,7 +108,7 @@ class Board :
     def put_random_boat(self, size=2):
         x = R.randint(0,9)
         y = R.randint(0,9)
-        vertical = R.random >= 0.5
+        vertical = R.random() >= 0.5
         boat = Boat(size,(x,y),vertical)
 
         while not self.valid_boat(boat):
@@ -118,3 +118,8 @@ class Board :
             boat = Boat(size,(x,y),vertical)
         
         self.put_boat(boat)
+    
+    def put_random_all_boats(self):
+        list_of_size = [2,2,2,3,3,4,5]
+        for size in list_of_size:
+            self.put_random_boat(size)

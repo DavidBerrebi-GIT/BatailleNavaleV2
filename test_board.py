@@ -89,3 +89,13 @@ def test_valid_boat():
 
     assert not board.valid_boat(boat2)
     assert not board.valid_boat(boat3)
+
+def test_put_random_boat():
+    board = Board()
+    board.put_random_boat(2)
+    assert board.boats != [] and board.boats[0] != None
+
+def test_put_random_all_boats():
+    board = Board()
+    board.put_random_all_boats()
+    assert len(board.boats) == 7
