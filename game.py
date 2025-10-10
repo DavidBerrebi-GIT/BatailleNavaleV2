@@ -16,7 +16,7 @@ def shoot_input():
 
 def boat_input():
     s = input("Code Navire :")
-    if not valid_code_boat(s):
+    while not valid_code_boat(s):
         s = input("Entrez un code Navire valide :")
     size = int(s[0])
     vertical = True if s[1] == 'V' else False
@@ -45,7 +45,7 @@ def put_all_boats(board):
     
     while boat_remaining():
         print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
-        board.show()
+        board.show(False)
         size, position, vertical = boat_input()
         if dic[size] == 0:
             print(f"Tous les navire de taille {size} ont déjà été posés. Choisissez une autre taile de navire")
