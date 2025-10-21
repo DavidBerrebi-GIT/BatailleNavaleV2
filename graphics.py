@@ -2,12 +2,13 @@ import tkinter as tk
 
 class Graphics:
     ColorChart = {-1: "#fafafa", -2 : "#1658b4", -3:"#1658b4", -4 : "#ed8106", 0: "#23a418" }
+    
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Bataille Navale")
         self.root.minsize(1200, 700)
 
-        self.canvas1 = tk.Canvas(self.root,width=1200, height=700, bg="white")
+        self.canvas1 = tk.Canvas(self.root,width=1200, height=500, bg="white")
 
     
 
