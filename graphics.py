@@ -8,7 +8,7 @@ class Graphics:
         self.root.minsize(1200, 700)
 
         self.canvas1 = tk.Canvas(self.root,width=1200, height=700, bg="white")
-        self.canvas2 = tk.Canvas(self.root,width=1200, height=700, bg="white")
+
     
 
     def draw_board_player(self, board):
@@ -17,6 +17,8 @@ class Graphics:
                 value = board.cells[i][j] 
                 if value >= 0:
                     value = 0
+                if value == -3:
+                    value = -1
                 fill =  Graphics.ColorChart[value]
                 self.canvas1.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51 ,j*50 + 51 ,outline="black", fill=fill)
         self.canvas1.pack()
@@ -27,7 +29,9 @@ class Graphics:
                 value = board.cells[i][j]
                 if value >= 0:
                     value = -1
+                if value == -3:
+                    value = -1
                 fill =  Graphics.ColorChart[value]
-                self.canvas2.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51 ,j*50 + 51 ,outline="black", fill=fill)
-        self.canvas2.pack()
+                self.canvas1.create_rectangle(2 + i*50 + 600, 2 + j*50, i*50 + 51 +600 ,j*50 + 51 ,outline="black", fill=fill)
+        self.canvas1.pack()
     
