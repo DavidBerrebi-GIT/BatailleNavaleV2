@@ -7,7 +7,7 @@ class Graphics:
         self.root.title("Bataille Navale")
         self.root.minsize(1200, 700)
 
-        self.canevas1 = tk.Canvas(self.root,width=1200, height=700, bg="white")
+        self.canvas1 = tk.Canvas(self.root,width=1200, height=700, bg="white")
         self.canvas2 = tk.Canvas(self.root,width=1200, height=700, bg="white")
     
 
