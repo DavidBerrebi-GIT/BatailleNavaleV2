@@ -71,7 +71,8 @@ class Board :
         if value >= 0:
             self.cells[x][y] = -4
             self.hit(value)
-            
+        elif value == -4:
+            return
         else: 
             self.cells[x][y] = -2
 

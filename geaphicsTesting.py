@@ -31,10 +31,9 @@ window= Graphics()
 window.draw_board_player(board_player)
 window.draw_board_opponnent(board_opponent)
 taille = tk.IntVar()
-radio_button_taille2 = tk.Radiobutton(window.root, text ="1",variable = taille, value = 2)
-radio_button_taille3 = tk.Radiobutton(window.root, text ="2",variable = taille, value = 3)
-radio_button_taille4 = tk.Radiobutton(window.root, text ="3",variable = taille, value = 4)
-radio_button_taille5 = tk.Radiobutton(window.root, text ="4",variable = taille, value = 5)
+
+
+
 
 window.canvas2.bind('<Button-1>', coordinates)
 window.root.mainloop()
