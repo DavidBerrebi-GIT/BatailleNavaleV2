@@ -8,7 +8,17 @@ class Graphics:
         self.root.title("Bataille Navale")
         self.root.minsize(1200, 700)
 
-        self.canvas1 = tk.Canvas(self.root,width=1200, height=500, bg="white")
+        self.root.columnconfigure(0,weight=10)
+        self.root.columnconfigure(1,weight=10)
+        self.root.columnconfigure(2,weight=1 )
+
+        
+
+        self.canvas1 = tk.Canvas(self.root,width=500, height=500, bg="white")
+        self.canvas1.grid(column=0,row=0)
+        self.canvas2 = tk.Canvas(self.root,width=500, height=500, bg="white")
+        self.canvas2.grid(column=1,row=0)
+
 
     
 
@@ -22,7 +32,7 @@ class Graphics:
                     value = -1
                 fill =  Graphics.ColorChart[value]
                 self.canvas1.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51 ,j*50 + 51 ,outline="black", fill=fill)
-        self.canvas1.pack()
+        self.canvas1.grid(column=0,row=0)
 
     def draw_board_opponnent(self, board):
         for i in range(10):
@@ -33,6 +43,6 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.canvas1.create_rectangle(2 + i*50 + 600, 2 + j*50, i*50 + 51 +600 ,j*50 + 51 ,outline="black", fill=fill)
-        self.canvas1.pack()
+                self.canvas2.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51,j*50 + 51 ,outline="black", fill=fill)
+        self.canvas2.grid(column=1,row=0)
     

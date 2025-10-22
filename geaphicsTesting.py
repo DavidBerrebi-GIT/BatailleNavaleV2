@@ -5,10 +5,11 @@ import tkinter as tk
 
 def coordinates(event):
     global board_opponent
-    x = event.x
-    y = event.y
+    print(event.x, event.y)
+    x = event.x //50
+    y = event.y //50
     board_opponent.shoot((x,y))
-
+    window.draw_board_opponnent(board_opponent)
     
     print("end event")
 
@@ -34,11 +35,6 @@ radio_button_taille2 = tk.Radiobutton(window.root, text ="1",variable = taille, 
 radio_button_taille3 = tk.Radiobutton(window.root, text ="2",variable = taille, value = 3)
 radio_button_taille4 = tk.Radiobutton(window.root, text ="3",variable = taille, value = 4)
 radio_button_taille5 = tk.Radiobutton(window.root, text ="4",variable = taille, value = 5)
-radio_button_taille2.pack()
-radio_button_taille2.pack()
-radio_button_taille3.pack()
-radio_button_taille4.pack()
-radio_button_taille5.pack()
 
-window.canvas1.bind('<Button-1>', coordinates)
+window.canvas2.bind('<Button-1>', coordinates)
 window.root.mainloop()
