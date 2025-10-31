@@ -19,9 +19,9 @@ class Graphics:
         self.canvas2 = tk.Canvas(self.root,width=500, height=500, bg="white")
         self.canvas2.grid(column=1,row=0)
 
-        self.canvas_remaining1 = tk.Canvas(self.root,width=500, height=500, bg="white")
+        self.canvas_remaining1 = tk.Canvas(self.root,width=500, height=150, bg="white")
         self.canvas_remaining1.grid(column=0,row=1)
-        self.canvas_remaining2 = tk.Canvas(self.root,width=500, height=500, bg="white")
+        self.canvas_remaining2 = tk.Canvas(self.root,width=500, height=150, bg="white")
         self.canvas_remaining2.grid(column=1,row=1)
 
         
