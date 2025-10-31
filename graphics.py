@@ -55,11 +55,12 @@ class Graphics:
         self.draw_remaining_boat(board,2)
     
     def draw_remaining_boat(self,board,player):
-        canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining1
+        size = 20
+        canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining2
         for i in range(7):
             color = Graphics.ColorChart[-1] if  board.sinked[i] else Graphics.ColorChart[0]
 
             for j in range(board.boats[i].length):
-                canvas.create_rectangle( 10 * i, 10 * j, 10 * i + 10, 10 * j + 10, outline="black", fill=color)
+                canvas.create_rectangle(2 +  size * i, 2 + size * j, size * (i + 1), size * (j+1), outline="black", fill=color)
                 
 
