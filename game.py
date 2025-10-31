@@ -1,6 +1,7 @@
 from board import Board
 from boat import Boat
 from random import randint
+from graphics import Graphics
 import time
 
 def input_position(string):
@@ -68,8 +69,12 @@ def put_all_boats(board):
     print("Tous les navire ont été posés.")
 
         
-
+def coordinates(event):
+    x = event.x //50
+    y = event.y //50
+    return (x,y)
 def game():
+    window = Graphics()
     board1 = Board()
     board2 = Board()
     turn = 1
@@ -79,17 +84,15 @@ def game():
     run = True
     gagnant = -1
     while run and gagnant == -1:
+        window.draw_board_player(board1)
+        window.draw_board_opponnent(board2)
+        
         if turn == 1:
             board2.show()
-            x,y = shoot_input()
+            x,y = coordinates()
             board2.shoot((x,y))
-            board2.show()
-            if board2.cells[x][y] == -2:
-                print("Aucun navire touché ")
-                turn = 2
-                time.sleep(1)
-            else:
-                print("Navire touché!!")
+            time.sleep(1)
+
             if board2.lost():
                 gagnant = 1
             
@@ -97,13 +100,7 @@ def game():
             x = randint(0,9)
             y = randint(0,9)
             board1.shoot((x,y))
-            board1.show(False)
-            if board1.cells[x][y] == -2:
-                print("L'ennemie a raté son tir")
-                turn = 1
-                time.sleep(1)
-            else:
-                print("Un de nos navire est touché!!")
+            time.sleep(1)
             if board1.lost():
                 gagnant = 2
         time.sleep(1)
