@@ -69,10 +69,7 @@ def put_all_boats(board):
     print("Tous les navire ont été posés.")
 
         
-def coordinates(event):
-    x = event.x //50
-    y = event.y //50
-    return (x,y)
+
 def game():
     window = Graphics()
     board1 = Board()
@@ -83,13 +80,21 @@ def game():
     put_all_boats(board1)
     run = True
     gagnant = -1
+
+    x = 0
+    y = 0
+    def coordinates(event):
+        x = event.x //50
+        y = event.y //50
+        
+    window.canvas2.bind('<Button-1>', coordinates)
+    
     while run and gagnant == -1:
         window.draw_board_player(board1)
         window.draw_board_opponnent(board2)
         
         if turn == 1:
-            board2.show()
-            x,y = coordinates()
+            
             board2.shoot((x,y))
             time.sleep(1)
 
