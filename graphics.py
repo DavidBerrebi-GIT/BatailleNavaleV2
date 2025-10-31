@@ -39,6 +39,7 @@ class Graphics:
                 fill =  Graphics.ColorChart[value]
                 self.canvas1.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51 ,j*50 + 51 ,outline="black", fill=fill)
         self.canvas1.grid(column=0,row=0)
+        self.draw_remaining_boat(board,1)
 
     def draw_board_opponnent(self, board):
         for i in range(10):
@@ -51,9 +52,14 @@ class Graphics:
                 fill =  Graphics.ColorChart[value]
                 self.canvas2.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51,j*50 + 51 ,outline="black", fill=fill)
         self.canvas2.grid(column=1,row=0)
+        self.draw_remaining_boat(board,2)
     
     def draw_remaining_boat(self,board,player):
         canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining1
         for i in range(7):
-            if board.sinked[i]:
-                for j in range(board.boats[i].length):
+            color = Graphics.ColorChart[-1] if  board.sinked[i] else Graphics.ColorChart[0]
+
+            for j in range(board.boats[i].length):
+                canvas.create_rectangle( 10 * i, 10 * j, 10 * i + 10, 10 * j + 10, outline="black", fill=color)
+                
+
