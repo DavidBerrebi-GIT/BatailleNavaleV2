@@ -41,7 +41,7 @@ class Graphics:
                 fill =  Graphics.ColorChart[value]
                 self.draw_cell(self.canvas1,i,j,fill,Graphics.board_cell_size)
         self.canvas1.grid(column=0,row=0)
-        
+        self.draw_remaining_boat(board,1)
 
     def draw_board_opponnent(self, board):
         for i in range(10):
@@ -59,7 +59,7 @@ class Graphics:
     def draw_remaining_boat(self,board,player):
         size = 30
         canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining2
-        for i in range(7):
+        for i in range(len(board.boats)):
             color = Graphics.ColorChart[-1] if board.sinked[i] else Graphics.ColorChart[0]
 
             for j in range(board.boats[i].length):
@@ -67,8 +67,6 @@ class Graphics:
 
     def draw(self,board1,board2):
         self.draw_board_player(board1)
-        self.draw_remaining_boat(board1,1)
-
         self.draw_board_opponnent(board2)
         
 
@@ -78,3 +76,5 @@ class Graphics:
         dx,dy = (1,0)if boat.vertical else (0,1)
         for i in range(boat.length):
             self.draw_cell(self.canvas1, x + i * dx, y + i*dy,"#76dd8e",Graphics.board_cell_size)
+
+    def add_button(self,x,y,xx,yy,color,text,function):
