@@ -14,17 +14,17 @@ def put_all_boats(window,board):
         return False
 
     window.draw_board_player(board)
-    parameters = {"size":2, "pos" : (0,0), "state" : 0}
+    parameters = {"size":2, "pos" : (-1,-1), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
     def choose_boat(event):
-        x=event.x//10
+        x=event.y//10
         if x < 7:
             size = [5,4,3,3,2,2,2]
             parameters["size"] = size[x]
 
     def choose_position(event):
-        x=event.x//50
-        y=event.y//50
+        x=event.y//50
+        y=event.x//50
         if parameters["pos"] == (x,y):
             parameters["pos"] = (x,y)
             parameters["state"] = (parameters["state"] + 1)%3

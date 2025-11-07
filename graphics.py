@@ -2,7 +2,7 @@ import tkinter as tk
 
 class Graphics:
     ColorChart = {-1: "#fafafa", -2 : "#1658b4", -3:"#1658b4", -4 : "#ed8106", 0: "#23a418" }
-    
+    board_cell_size = 50
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Bataille Navale")
@@ -26,8 +26,8 @@ class Graphics:
         self.canvas_remaining2.grid(column=1,row=1)
 
         
-    def draw_cell(self,canvas,x,y,color):
-        canvas.create_rectangle(2 + x*50, 2 + y*50, x*50 + 51,y*50 + 51 ,outline="black", fill=color)
+    def draw_cell(self,canvas,x,y,color,size):
+        canvas.create_rectangle(2 + y*size, 2 + x*size, (y + 1)*size + 1,(x+1)*size + 1,outline="black", fill=color)
 
 
     def draw_board_player(self, board):
@@ -39,7 +39,7 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.draw_cell(self.canvas1,i,j,fill)
+                self.draw_cell(self.canvas1,i,j,fill,Graphics.board_cell_size)
         self.canvas1.grid(column=0,row=0)
         
 
@@ -52,7 +52,7 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.draw_cell(self.canvas2,i,j,fill)
+                self.draw_cell(self.canvas2,i,j,fill,Graphics.board_cell_size)
         self.canvas2.grid(column=1,row=0)
         self.draw_remaining_boat(board,2)
     
@@ -61,7 +61,7 @@ class Graphics:
         canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining2
         for i in range(7):
             color = Graphics.ColorChart[-1] if board.sinked[i] else Graphics.ColorChart[0]
-            
+
             for j in range(board.boats[i].length):
                 canvas.create_rectangle(2 +  size * i, 2 + size * j, size * (i + 1), size * (j+1), outline="black", fill=color)
 
@@ -75,6 +75,6 @@ class Graphics:
 
     def draw_boat(self,boat):
         x,y = boat.position
-        dx,dy = (0,1)if boat.vertical else (1,0)
+        dx,dy = (1,0)if boat.vertical else (0,1)
         for i in range(boat.length):
-            self.draw_cell(self.canvas1, x + i * dx, y + i*dy,"#76dd8e")
+            self.draw_cell(self.canvas1, x + i * dx, y + i*dy,"#76dd8e",Graphics.board_cell_size)
