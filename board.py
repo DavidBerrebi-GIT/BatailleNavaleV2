@@ -99,11 +99,11 @@ class Board :
 
     def valid_boat(self, boat):
         x,y = boat.position
-        i,j = (0,1) if boat.vertical else (1,0)
+        i,j = (1,0) if boat.vertical else (0,1)
         for k in range(boat.length):
             if not self._valid_cell((x + i*k, y + j*k)):
                 return False
-            elif self.cells[int(x + i*k)][int(y + j*k)] != -1:
+            if self.cells[int(x + i*k)][int(y + j*k)] != -1:
                 return False
         return True
 
