@@ -18,14 +18,19 @@ def put_all_boats(window,board):
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
     def choose_boat(event):
         x=event.x//10
-        size = [5,4,3,3,2,2,2]
-        parameters["size"] = size[x]
+        if x < 7:
+            size = [5,4,3,3,2,2,2]
+            parameters["size"] = size[x]
 
     def choose_position(event):
-        x=event.x/50
-        y=event.y/50
-        parameters["pos"] = (x,y)
-        parameters["state"] = (parameters["state"] + 1)%3
+        x=event.x//50
+        y=event.y//50
+        if parameters["pos"] == (x,y):
+            parameters["pos"] = (x,y)
+            parameters["state"] = (parameters["state"] + 1)%3
+        else:
+            parameters["pos"] = (x,y)
+            parameters["state"] = 1
         if parameters["state"] == 1:
             boat = Boat(parameters["size"], parameters["pos"], False)
             if not board.valid_boat(boat):
@@ -40,7 +45,7 @@ def put_all_boats(window,board):
             else:
                 window.draw_board_player(board)
                 window.draw_boat(boat)
-        if parameters["state"] == 2:
+        if parameters["state"] == 0:
             window.draw_board_player(board)
 
             
