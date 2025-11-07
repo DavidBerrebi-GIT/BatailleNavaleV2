@@ -12,9 +12,13 @@ def validate(window,board,parameters):
     vertical = True if parameters["state"] == 2 else False
     boat = Boat(size,pos,vertical)
     board.put_boat(boat)
+    window.draw_board_player(board)
+    if len(board.boats) == 7:
+        window.root.quit()
     parameters["size"] = [5,4,3,3,2,2,2,2][len(board.boats)]
     parameters["state"] = 0
-    window.draw_board_player(board)
+    
+
 
 
 def put_all_boats(window,board):
@@ -54,11 +58,7 @@ def put_all_boats(window,board):
 
     window.canvas1.bind('<Button-1>', choose_position)
     window.root.mainloop()
-    
-    print("just before while section")
-    while len(board.boats) <7:
-        time.sleep(1)
-    print("out of put all boats")
+
     
        
 
@@ -75,6 +75,8 @@ def game():
     window.draw_board_opponnent(board2)
     
     put_all_boats(window,board1)
+    print("out of put all boats")
+
     run = True
     gagnant = -1
     turn = 1
@@ -92,6 +94,7 @@ def game():
         
     window.canvas2.bind('<Button-1>', coordinates)
     draw_game()
+    window.root.mainloop()
     
     while run and gagnant == -1:
         
