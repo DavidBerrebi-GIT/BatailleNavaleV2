@@ -69,7 +69,7 @@ class Graphics:
     def draw(self,board1,board2):
         self.draw_board_player(board1)
         self.draw_board_opponnent(board2)
-        
+        self.root.update()
 
 
     def draw_boat(self,boat):
@@ -84,7 +84,7 @@ class Graphics:
         button.place(x=x,y=y)
 
         self.button_validate = button
-    def victory_screen(self,winner):
+    def victory_screen(self,text):
         self.canvas1.destroy()
         self.canvas2.destroy()
         self.canvas_remaining1.destroy()
@@ -92,4 +92,5 @@ class Graphics:
         
         self.root.columnconfigure(1,weight=0)
         self.canvas_victory = tk.Canvas(self.root,width=1200, height=500, bg="white")
-        self.canvas_victory.create_text(600,300)
+        self.canvas_victory.create_text(600,300,texte=text)
+        self.root.update()

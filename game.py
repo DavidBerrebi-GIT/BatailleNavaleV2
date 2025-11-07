@@ -156,7 +156,10 @@ def game():
     
         
     if winner != -1:
-        window.victory_screen(winner)
+        text = "Bravo vous avez gagné !!"
+        if winner == 2:
+            text = "Oh non, vous avez perdu :("
+        window.victory_screen(text)
 
         
 
