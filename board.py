@@ -130,6 +130,6 @@ class Board :
         L = []
         for i in range(10):
             for j in range(10):
-                if self.cells[i][j] == -1:
+                if not self.cells[i][j] in [-2,-4] :
                     L.append((i,j))
         return L

@@ -108,8 +108,9 @@ def game():
                 x,y = choice(ia_hit)
                 ia_hit.remove((x,y))
             else:
+                ia_shoot[:] = board1.available_for_shoot()
                 x,y = choice(ia_shoot)
-                ia_shoot.remove((x,y))
+                
             
             turn = 1 
             if board1.cells[x][y] >= 0:
@@ -119,8 +120,6 @@ def game():
                         ia_hit.append((x+i,y+j))
                 
                 for (i,j) in [(-1,-1),(-1,1),(1,-1),(1,1)]:
-                    if (x+i,y+j) in ia_shoot:
-                        ia_shoot.remove((x+i,y+j))
                     if (x+i,y+j) in ia_hit:
                         ia_hit.remove((x+i,y+j))
             board1.shoot((x,y))
@@ -133,7 +132,7 @@ def game():
 
             time.sleep(0.1)
 
-    
+    ia_shoot = []
     ia_hit = []
         
 
