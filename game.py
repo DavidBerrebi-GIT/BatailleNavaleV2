@@ -1,114 +1,147 @@
 from board import Board
 from boat import Boat
 from random import randint
+from random import choice
+from graphics import Graphics
 import time
 
-def input_position(string):
-    s = input(string)
-    y = ord(s[0].upper()) - ord('A')
-    x = int(s[1:]) - 1
-    return (x,y)
-
-def shoot_input():
-    x,y = input_position("Ou voulez vous tirer ? (lettre puis nombre: A10, D5 etc) ")
-    while not(0<=x<10 and 0<=y<10):
-        x,y = input_position("Choisissez des valeurs valides, lettre entre A et J et chiffre en 1 et 10 ")
-    return x,y
-
-def boat_input():
-    s = input("Code Navire :")
-    while not valid_code_boat(s):
-        s = input("Entrez un code Navire valide :")
-    size = int(s[0])
-    vertical = True if s[1] == 'V' else False
-    y = ord(s[2].upper()) - ord('A')
-    x = int(s[3:]) - 1
-    return size,(x,y),vertical
-
-def valid_code_boat(s):
-    if s[0] not in "2345":
-        return False
-    if s[1].upper() not in "HV":
-        return False
-    if s[2].upper() not in "ABCDEFGHIJ":
-        return False
-    if s[3:] not in ["1","2","3","4","5","6","7","8","9","10"]:
-        return False
-    return True
-
-def put_all_boats(board):
-    dic = {2: 3, 3 : 2, 4: 1, 5:1}
-    def boat_remaining ():
-        for key in dic.keys():
-            if dic[key] >0:
-                return True
-        return False
-
-    rand = input("Placement aléatoire des navires ? [y/n]")
-    if rand == "y":
-        board.put_random_all_boats()
-        print("Les navires ont été posés aléatoirement.")
-        board.show(False)
+def validate(window,board,parameters):
+    if parameters["state"] == 0:
         return
-    
-    while boat_remaining():
-        print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
-        board.show(False)
-        size, position, vertical = boat_input()
-        boat = Boat(size,position,vertical)
-        if dic[size] == 0:
-            print(f"Tous les navire de taille {size} ont déjà été posés. Choisissez une autre taile de navire")
-            continue
-        if not board.valid_boat(boat):
-            print("La position du navire est invalide.")
-            continue
-        else:
-          dic[size] -= 1
-          board.put_boat(boat)
-    print("Tous les navire ont été posés.")
+    size = parameters["size"]
+    pos = parameters["pos"]
+    vertical = True if parameters["state"] == 2 else False
+    boat = Boat(size,pos,vertical)
+    board.put_boat(boat)
+    window.draw_board_player(board)
+    if len(board.boats) == 7:
+        window.root.quit()
+        window.button_validate.destroy()
+        window.canvas1.unbind('<Button-1>')
 
-        
+    parameters["size"] = [5,4,3,3,2,2,2,2][len(board.boats)]
+    parameters["state"] = 0
+
+    
+
+
+
+def put_all_boats(window,board):
+    window.draw_board_player(board)
+
+    parameters = {"size":5, "pos" : (-1,-1), "state" : 0}
+    #Trois etats, 0 non placé, 1 horizontale, 2 verticale
+    window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda : validate(window,board,parameters))
+    
+    
+
+    def choose_position(event):
+        x=event.y//50
+        y=event.x//50
+        if parameters["pos"] == (x,y):
+            parameters["pos"] = (x,y)
+            parameters["state"] = 2 if parameters["state"] == 1 else 1
+        else:
+            parameters["pos"] = (x,y)
+            parameters["state"] = 1 if parameters["state"] == 0 else parameters["state"]
+        if parameters["state"] == 1:
+            boat = Boat(parameters["size"], parameters["pos"], False)
+            if not board.valid_boat(boat):
+                parameters["state"] = 2
+            else:
+                window.draw_board_player(board)
+                window.draw_boat(boat)
+        if parameters["state"] == 2:
+            boat = Boat(parameters["size"], parameters["pos"], True)
+            if not board.valid_boat(boat):
+                parameters["state"] = 0
+            else:
+                window.draw_board_player(board)
+                window.draw_boat(boat)
+        if parameters["state"] == 0:
+            window.draw_board_player(board)
+
+    window.canvas1.bind('<Button-1>', choose_position)
+    window.root.mainloop()
+
+    
+       
+
+
 
 def game():
+    window = Graphics()
     board1 = Board()
     board2 = Board()
-    turn = 1
+    
+    draw_game = lambda : window.draw(board1,board2)
 
     board2.put_random_all_boats()
-    put_all_boats(board1)
-    run = True
+    window.draw_board_opponnent(board2)
+    
+    put_all_boats(window,board1)
+   
+
     gagnant = -1
-    while run and gagnant == -1:
+    turn = 1
+    
+
+    def coordinates(event,turn):
+        global gagnant
+        if turn == 2:
+            return
+        x = event.y //50
+        y = event.x //50
+        
+        turn = 1 if board2.cells[x][y] >= 0 else 2
+        board2.shoot((x,y))  
+        window.draw(board1,board2)  
+        if board2.lost():
+            gagnant = 1
+            window.canvas2.unbind('<Button-1>')
         if turn == 1:
-            board2.show()
-            x,y = shoot_input()
-            board2.shoot((x,y))
-            board2.show()
-            if board2.cells[x][y] == -2:
-                print("Aucun navire touché ")
-                turn = 2
-                time.sleep(1)
+            return
+    
+        while turn == 2:
+            x,y=0,0
+            if ia_hit:
+                x,y = choice(ia_hit)
+                ia_hit.remove((x,y))
             else:
-                print("Navire touché!!")
-            if board2.lost():
-                gagnant = 1
+                ia_shoot[:] = board1.available_for_shoot()
+                x,y = choice(ia_shoot)
+                
             
-        else:
-            x = randint(0,9)
-            y = randint(0,9)
+            turn = 1 
+            if board1.cells[x][y] >= 0:
+                turn = 2
+                for (i,j) in [(-1,0),(1,0),(0,-1),(0,1)]:
+                    if (x+i,y+j) in ia_shoot:
+                        ia_hit.append((x+i,y+j))
+                
+                for (i,j) in [(-1,-1),(-1,1),(1,-1),(1,1)]:
+                    if (x+i,y+j) in ia_hit:
+                        ia_hit.remove((x+i,y+j))
             board1.shoot((x,y))
-            board1.show(False)
-            if board1.cells[x][y] == -2:
-                print("L'ennemie a raté son tir")
-                turn = 1
-                time.sleep(1)
-            else:
-                print("Un de nos navire est touché!!")
+        
+            window.draw(board1,board2)
+            
             if board1.lost():
                 gagnant = 2
-        time.sleep(1)
+                window.canvas2.unbind('<Button-1>')
+
+            time.sleep(0.1)
+
+    ia_shoot = []
+    ia_hit = []
         
+
+
         
+    window.canvas2.bind('<Button-1>',lambda e: coordinates(e,turn))
+    draw_game()
+    window.root.mainloop()
+    
         
     if gagnant == 1:
         print("Bravo, vous avez remporté la bataille")

@@ -25,8 +25,7 @@ class Board :
             else :
                 self.cells[x][y+i] = nb 
                 self._put_forbiden_cells((x,y+i))
-    
-    
+
     def _put_forbiden_cells(self, cell):
         x,y = cell
         for i in range(-1,2):
@@ -71,7 +70,8 @@ class Board :
         if value >= 0:
             self.cells[x][y] = -4
             self.hit(value)
-            
+        elif value == -4:
+            return
         else: 
             self.cells[x][y] = -2
 
@@ -103,7 +103,7 @@ class Board :
         for k in range(boat.length):
             if not self._valid_cell((x + i*k, y + j*k)):
                 return False
-            elif self.cells[x + i*k][y + j*k] != -1:
+            if self.cells[int(x + i*k)][int(y + j*k)] != -1:
                 return False
         return True
 
@@ -126,3 +126,10 @@ class Board :
         for size in list_of_size:
             self.put_random_boat(size)
 
+    def available_for_shoot(self):
+        L = []
+        for i in range(10):
+            for j in range(10):
+                if not self.cells[i][j] in [-2,-4] :
+                    L.append((i,j))
+        return L

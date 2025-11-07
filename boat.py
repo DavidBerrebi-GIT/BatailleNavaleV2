@@ -1,5 +1,5 @@
 class Boat :
-    def __init__(self, length, position, vertical = False):
+    def __init__(self, length =2, position = (0,0), vertical = False):
         self.length = length
         self.position = position
         self.vertical = vertical
