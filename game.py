@@ -4,23 +4,22 @@ from random import randint
 from graphics import Graphics
 import time
 
-
+def validate(event,board,parameters):
+    if parameters["state"] == 0:
+        return
+    size = parameters["size"]
+    pos = parameters["pos"]
+    vertical = True if parameters["state"] == 2 else False
+    boat = Boat(size,pos,vertical)
+    board.put_boat(boat)
 def put_all_boats(window,board):
-    dic = {2: 3, 3 : 2, 4: 1, 5:1}
-    def boat_remaining ():
-        for key in dic.keys():
-            if dic[key] >0:
-                return True
-        return False
-
     window.draw_board_player(board)
+
     parameters = {"size":2, "pos" : (-1,-1), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
-    def choose_boat(event):
-        x=event.y//10
-        if x < 7:
-            size = [5,4,3,3,2,2,2]
-            parameters["size"] = size[x]
+    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda : validate(board,parameters))
+    
+    
 
     def choose_position(event):
         x=event.y//50
@@ -54,7 +53,6 @@ def put_all_boats(window,board):
         
     
     window.canvas1.bind('<Button-1>', choose_position)
-    window.canvas_remaining1.bind('<Button-1>', choose_boat)
 
     window.root.mainloop()
     

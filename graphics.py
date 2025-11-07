@@ -27,11 +27,11 @@ class Graphics:
         self.canvas_remaining2.grid(column=1,row=1)
 
         
-    def draw_cell(self,canvas,x,y,color,size):
-        canvas.create_rectangle(2 + y*size, 2 + x*size, (y + 1)*size + 1,(x+1)*size + 1,outline="black", fill=color)
-
+    def draw_cell(self,canvas,x,y,color,size,xoffset = 0, yoffset = 0,tag=""):
+        canvas.create_rectangle(2 + yoffset + y*size, 2 + xoffset + x*size, (y + 1)*size + 1 ,(x+1)*size + 1 ,outline="black", fill=color,tag=tag)
 
     def draw_board_player(self, board):
+        size = Graphics.board_cell_size
         for i in range(10):
             for j in range(10):
                 value = board.cells[i][j] 
@@ -40,11 +40,12 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.draw_cell(self.canvas1,i,j,fill,Graphics.board_cell_size)
+                self.draw_cell(self.canvas1,i,j,fill,size)
         self.canvas1.grid(column=0,row=0)
         self.draw_remaining_boat(board,1)
 
     def draw_board_opponnent(self, board):
+        size = Graphics.board_cell_size
         for i in range(10):
             for j in range(10):
                 value = board.cells[i][j]
@@ -53,7 +54,7 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.draw_cell(self.canvas2,i,j,fill,Graphics.board_cell_size)
+                self.draw_cell(self.canvas2,i,j,fill, size)
         self.canvas2.grid(column=1,row=0)
         self.draw_remaining_boat(board,2)
     
@@ -64,7 +65,8 @@ class Graphics:
             color = Graphics.ColorChart[-1] if board.sinked[i] else Graphics.ColorChart[0]
 
             for j in range(board.boats[i].length):
-                self.draw_cell(canvas,i,j,color,size)
+                self.draw_cell(canvas,j,i,color,size,yoffset=2)
+    
     def draw(self,board1,board2):
         self.draw_board_player(board1)
         self.draw_board_opponnent(board2)
@@ -77,5 +79,9 @@ class Graphics:
         for i in range(boat.length):
             self.draw_cell(self.canvas1, x + i * dx, y + i*dy,"#76dd8e",Graphics.board_cell_size)
 
-    def add_button(self,x,y,xx,yy,color,text,function):
-        button = self.draw_cell(self.canvas_remaining1,x,y)
+    def create_button(self,canvas,x,y,w,h,text,function):
+
+        button = tk.Button(canvas,width=w, height = h, text=text, command=function,bg="#76dd8e")
+        button.place(x=x,y=y)
+
+        return button
