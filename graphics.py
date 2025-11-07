@@ -26,7 +26,6 @@ class Graphics:
         self.canvas_remaining2.grid(column=1,row=1)
 
         
-
     
 
     def draw_board_player(self, board):

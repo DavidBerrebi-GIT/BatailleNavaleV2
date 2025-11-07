@@ -4,38 +4,6 @@ from random import randint
 from graphics import Graphics
 import time
 
-def input_position(string):
-    s = input(string)
-    y = ord(s[0].upper()) - ord('A')
-    x = int(s[1:]) - 1
-    return (x,y)
-
-def shoot_input():
-    x,y = input_position("Ou voulez vous tirer ? (lettre puis nombre: A10, D5 etc) ")
-    while not(0<=x<10 and 0<=y<10):
-        x,y = input_position("Choisissez des valeurs valides, lettre entre A et J et chiffre en 1 et 10 ")
-    return x,y
-
-def boat_input():
-    s = input("Code Navire :")
-    while not valid_code_boat(s):
-        s = input("Entrez un code Navire valide :")
-    size = int(s[0])
-    vertical = True if s[1] == 'V' else False
-    y = ord(s[2].upper()) - ord('A')
-    x = int(s[3:]) - 1
-    return size,(x,y),vertical
-
-def valid_code_boat(s):
-    if s[0] not in "2345":
-        return False
-    if s[1].upper() not in "HV":
-        return False
-    if s[2].upper() not in "ABCDEFGHIJ":
-        return False
-    if s[3:] not in ["1","2","3","4","5","6","7","8","9","10"]:
-        return False
-    return True
 
 def put_all_boats(window,board):
     dic = {2: 3, 3 : 2, 4: 1, 5:1}
@@ -46,14 +14,34 @@ def put_all_boats(window,board):
         return False
 
 
-    boat = Boat()
+    parameters = {"size":2, "pos" : (0,0), "state" : 0}
+    #Trois etats, 0 non placé, 1 horizontale, 2 verticale
     def choose_boat(event):
         x=event.x/10
-    def put_boat():
+        size = [5,4,3,3,2,2,2]
+        parameters["size"] = size[x]
+
+    def choose_position(event):
+        x=event.x/10
+        y=event.y/10
+        parameters["pos"] = (x,y)
+        parameters["state"] = (parameters["state"] + 1)%3
+        if parameters["state"] == 1:
+            boat = Boat(parameters["size"], parameters["pos"], False)
+            if not board.valid_boat(boat):
+                parameters["state"] = 2
+            
+    def draw_boat(boat):
         pass
+            
+
+
+        
     
-    window.canvas1.bind('<Button-1>', put_boat)
+    window.canvas1.bind('<Button-1>', choose_position)
     window.canvas_remaining1.bind('<Button-1>', choose_boat)
+    
+    
     while boat_remaining():
         print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
         board.show(False)
