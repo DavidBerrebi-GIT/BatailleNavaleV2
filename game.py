@@ -121,14 +121,15 @@ def game():
                 
             
             turn = 1 
+            print(f"x : {x}, y : {y}, case : {board1.cells[x][y]}")
             if board1.cells[x][y] >= 0:
                 turn = 2
                 for (i,j) in [(-1,0),(1,0),(0,-1),(0,1)]:
-                    if board1._valid_cell((x+i,y+j)):
+                    if board1.valid_cell((x+i,y+j)):
                         ia_hit.append((x+i,y+j))
                 
                 for (i,j) in [(-1,-1),(-1,1),(1,-1),(1,1)]:
-                    if board1._valid_cell((x+i,y+j)):
+                    if board1.valid_cell((x+i,y+j)):
                         board1.shoot((x+i,y+j))
             board1.shoot((x,y))
         

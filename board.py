@@ -4,7 +4,6 @@ from boat import Boat
 
 class Board :
     #-1 case vide, -2 tir dans l'eau, -3 zone interdite au bord d'un navire, -4 navire touché
-    car = {-1 : " ", -2 : ":", -3 : " ", 0 : "O", -4 : "#"}    
     def __init__(self):
         self.cells = [[-1 for _ in range(10) ] for _ in range(10)]
         self.boats = []
@@ -30,12 +29,12 @@ class Board :
         x,y = cell
         for i in range(-1,2):
             for j in range(-1,2):
-                if self._valid_cell((x+i,y+j)):
+                if self.valid_cell((x+i,y+j)):
                     if self.cells[x+i][y+j] == -1:
                         self.cells[x+i][y+j] = -3
     
     
-    def _valid_cell(self, cell):
+    def valid_cell(self, cell):
         x,y = cell
         if 0 <= x < 10 and 0 <= y < 10:
             return True
@@ -58,11 +57,11 @@ class Board :
             x,y = cell
             for i in range(-1,2):
                 for j in range (-1,2):
-                    if self._valid_cell((x+i,y+j)) and self.cells[x+i][y+j] == -3:
+                    if self.valid_cell((x+i,y+j)) and self.cells[x+i][y+j] == -3:
                         self.cells[x+i][y+j] = -2
 
     def shoot(self, position):
-        if not self._valid_cell(position):
+        if not self.valid_cell(position):
             print("Tir invalide")
             return
         x,y = position
@@ -75,22 +74,6 @@ class Board :
         else: 
             self.cells[x][y] = -2
 
-
-    def show(self, hided = True):
-        print("\n  ABCDEFGHIJ")
-        for x in range(10):
-            print()
-            print(f"{x+1:2}", end="")
-            for y in range(10):
-                valeur = self.cells[x][y]
-                #Le plateau n'affiche pas les navires en partie normal
-                if hided and (valeur >= 0 or valeur == -3):
-                    valeur = -1
-                elif valeur >= 0:
-                    valeur = 0
-                print(Board.car[valeur], end="")
-        print()
-
     def lost(self):
         for sink in self.sinked:
             if not sink:
@@ -101,7 +84,7 @@ class Board :
         x,y = boat.position
         i,j = (1,0) if boat.vertical else (0,1)
         for k in range(boat.length):
-            if not self._valid_cell((x + i*k, y + j*k)):
+            if not self.valid_cell((x + i*k, y + j*k)):
                 return False
             if self.cells[int(x + i*k)][int(y + j*k)] != -1:
                 return False
@@ -125,11 +108,3 @@ class Board :
         list_of_size = [5,4,3,3,2,2,2]
         for size in list_of_size:
             self.put_random_boat(size)
-
-    def available_for_shoot(self):
-        L = []
-        for i in range(10):
-            for j in range(10):
-                if not self.cells[i][j] in [-2,-4] :
-                    L.append((i,j))
-        return L
