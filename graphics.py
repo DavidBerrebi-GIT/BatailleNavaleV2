@@ -64,4 +64,5 @@ class Graphics:
             for j in range(board.boats[i].length):
                 canvas.create_rectangle(2 +  size * i, 2 + size * j, size * (i + 1), size * (j+1), outline="black", fill=color)
                 
-
+    def select(self,position,player):
+        canvas = self.canvas1 if player == 1 else self.canvas2

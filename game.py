@@ -37,7 +37,7 @@ def valid_code_boat(s):
         return False
     return True
 
-def put_all_boats(board):
+def put_all_boats(window,board):
     dic = {2: 3, 3 : 2, 4: 1, 5:1}
     def boat_remaining ():
         for key in dic.keys():
@@ -45,13 +45,15 @@ def put_all_boats(board):
                 return True
         return False
 
-    rand = input("Placement aléatoire des navires ? [y/n]")
-    if rand == "y":
-        board.put_random_all_boats()
-        print("Les navires ont été posés aléatoirement.")
-        board.show(False)
-        return
+
+    boat = Boat()
+    def choose_boat(event):
+        x=event.x/10
+    def put_boat():
+        pass
     
+    window.canvas1.bind('<Button-1>', put_boat)
+    window.canvas_remaining1.bind('<Button-1>', choose_boat)
     while boat_remaining():
         print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
         board.show(False)
@@ -68,7 +70,7 @@ def put_all_boats(board):
           board.put_boat(boat)
     print("Tous les navire ont été posés.")
 
-        
+
 
 def game():
     window = Graphics()
@@ -77,7 +79,7 @@ def game():
     turn = 1
 
     board2.put_random_all_boats()
-    put_all_boats(board1)
+    put_all_boats(window,board1)
     run = True
     gagnant = -1
 
