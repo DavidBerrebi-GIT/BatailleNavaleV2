@@ -3,6 +3,7 @@ import tkinter as tk
 class Graphics:
     ColorChart = {-1: "#fafafa", -2 : "#1658b4", -3:"#1658b4", -4 : "#ed8106", 0: "#23a418" }
     board_cell_size = 50
+    remaining_cell_size = 30
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Bataille Navale")
@@ -57,14 +58,13 @@ class Graphics:
         self.draw_remaining_boat(board,2)
     
     def draw_remaining_boat(self,board,player):
-        size = 30
+        size = Graphics.remaining_cell_size
         canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining2
         for i in range(len(board.boats)):
             color = Graphics.ColorChart[-1] if board.sinked[i] else Graphics.ColorChart[0]
 
             for j in range(board.boats[i].length):
-                canvas.create_rectangle(2 +  size * i, 2 + size * j, size * (i + 1), size * (j+1), outline="black", fill=color)
-
+                self.draw_cell(canvas,i,j,color,size)
     def draw(self,board1,board2):
         self.draw_board_player(board1)
         self.draw_board_opponnent(board2)
@@ -78,3 +78,4 @@ class Graphics:
             self.draw_cell(self.canvas1, x + i * dx, y + i*dy,"#76dd8e",Graphics.board_cell_size)
 
     def add_button(self,x,y,xx,yy,color,text,function):
+        button = self.draw_cell(self.canvas_remaining1,x,y)
