@@ -84,8 +84,12 @@ class Graphics:
         button.place(x=x,y=y)
 
         self.button_validate = button
-    def delete_canvas(self):
+    def victory_screen(self,winner):
         self.canvas1.destroy()
         self.canvas2.destroy()
         self.canvas_remaining1.destroy()
         self.canvas_remaining2.destroy()
+        
+        self.root.columnconfigure(1,weight=0)
+        self.canvas_victory = tk.Canvas(self.root,width=1200, height=500, bg="white")
+        self.canvas_victory.create_text(600,300)

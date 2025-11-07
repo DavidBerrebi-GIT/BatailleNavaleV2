@@ -82,12 +82,12 @@ def game():
     put_all_boats(window,board1)
    
 
-    gagnant = -1
+    winner = -1
     turn = 1
     
 
     def coordinates(event,turn):
-        global gagnant
+        global winner
         if turn == 2:
             return
         x = event.y //50
@@ -97,20 +97,27 @@ def game():
         board2.shoot((x,y))  
         window.draw(board1,board2)  
         if board2.lost():
-            gagnant = 1
+            winner = 1
             window.canvas2.unbind('<Button-1>')
             window.root.quit()
         if turn == 1:
             return
     
+        
+        
         while turn == 2:
             x,y=0,0
-            if ia_hit:
+            while ia_hit:
                 x,y = choice(ia_hit)
                 ia_hit.remove((x,y))
+                if board2.cells[x][y] >= 0 or board2.cells[x][y] == -1 :
+                    break
             else:
-                ia_shoot[:] = board1.available_for_shoot()
-                x,y = choice(ia_shoot)
+                x = randint(0,9)
+                y = randint(0,9)
+                while board1[x][y] in [-2,-4]:
+                    x = randint(0,9)
+                    y = randint(0,9)
                 
             
             turn = 1 
@@ -121,20 +128,19 @@ def game():
                         ia_hit.append((x+i,y+j))
                 
                 for (i,j) in [(-1,-1),(-1,1),(1,-1),(1,1)]:
-                    if (x+i,y+j) in ia_hit:
-                        ia_hit.remove((x+i,y+j))
+                    board1.shoot((x+i,y+j))
             board1.shoot((x,y))
         
             window.draw(board1,board2)
             
             if board1.lost():
-                gagnant = 2
+                winner = 2
                 window.canvas2.unbind('<Button-1>')
                 window.root.quit()
 
             time.sleep(0.1)
 
-    ia_shoot = []
+    
     ia_hit = []
         
 
@@ -145,10 +151,10 @@ def game():
     window.root.mainloop()
     
         
-    if gagnant == 1:
-        print("Bravo, vous avez remporté la bataille")
-    if gagnant == 2:
-        print("Vous avez perdu la bataille...")
+    if winner != -1:
+        window.victory_screen(winner)
+
+        
 
 
 
