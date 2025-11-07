@@ -5,13 +5,11 @@ import tkinter as tk
 
 def coordinates(event):
     global board_opponent
-    print(event.x, event.y)
     x = event.x //50
     y = event.y //50
     board_opponent.shoot((x,y))
     window.draw_board_opponnent(board_opponent)
     
-    print("end event")
 
 
 random.seed(0)

@@ -7,8 +7,8 @@ class Board :
     car = {-1 : " ", -2 : ":", -3 : " ", 0 : "O", -4 : "#"}    
     def __init__(self):
         self.cells = [[-1 for _ in range(10) ] for _ in range(10)]
-        self.boats = {}
-        self.sinked = {}
+        self.boats = []
+        self.sinked = []
     
     
     def put_boat(self, boat):
@@ -16,8 +16,8 @@ class Board :
         nb = len(self.boats)
         
         x,y = boat.position
-        self.boats[nb] = boat
-        self.sinked[nb] = False
+        self.boats.append(boat)
+        self.sinked.append(False)
         for i in range(boat.length):
             if boat.vertical:
                 self.cells[x+i][y] = nb 
@@ -103,7 +103,7 @@ class Board :
         for k in range(boat.length):
             if not self._valid_cell((x + i*k, y + j*k)):
                 return False
-            elif self.cells[x + i*k][y + j*k] != -1:
+            elif self.cells[int(x + i*k)][int(y + j*k)] != -1:
                 return False
         return True
 

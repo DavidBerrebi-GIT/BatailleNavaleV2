@@ -26,7 +26,9 @@ class Graphics:
         self.canvas_remaining2.grid(column=1,row=1)
 
         
-    
+    def draw_cell(self,canvas,x,y,color):
+        canvas.create_rectangle(2 + x*50, 2 + y*50, x*50 + 51,y*50 + 51 ,outline="black", fill=color)
+
 
     def draw_board_player(self, board):
         for i in range(10):
@@ -37,7 +39,7 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.canvas1.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51 ,j*50 + 51 ,outline="black", fill=fill)
+                self.draw_cell(self.canvas1,i,j,fill)
         self.canvas1.grid(column=0,row=0)
         
 
@@ -50,15 +52,15 @@ class Graphics:
                 if value == -3:
                     value = -1
                 fill =  Graphics.ColorChart[value]
-                self.canvas2.create_rectangle(2 + i*50, 2 + j*50, i*50 + 51,j*50 + 51 ,outline="black", fill=fill)
+                self.draw_cell(self.canvas2,i,j,fill)
         self.canvas2.grid(column=1,row=0)
-        
+        self.draw_remaining_boat(board,2)
     
     def draw_remaining_boat(self,board,player):
         size = 30
         canvas = self.canvas_remaining1 if player == 1 else self.canvas_remaining2
         for i in range(7):
-            color = Graphics.ColorChart[-1] if  board.sinked[i] else Graphics.ColorChart[0]
+            color = Graphics.ColorChart[-1] if board.sinked[i] else Graphics.ColorChart[0]
 
             for j in range(board.boats[i].length):
                 canvas.create_rectangle(2 +  size * i, 2 + size * j, size * (i + 1), size * (j+1), outline="black", fill=color)
@@ -68,8 +70,11 @@ class Graphics:
         self.draw_remaining_boat(board1,1)
 
         self.draw_board_opponnent(board2)
-        self.draw_remaining_boat(board2,2)
+        
 
 
-    def select(self,position,player):
-        canvas = self.canvas1 if player == 1 else self.canvas2
+    def draw_boat(self,boat):
+        x,y = boat.position
+        dx,dy = (0,1)if boat.vertical else (1,0)
+        for i in range(boat.length):
+            self.draw_cell(self.canvas1, x + i * dx, y + i*dy,"#76dd8e")

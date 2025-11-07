@@ -13,26 +13,36 @@ def put_all_boats(window,board):
                 return True
         return False
 
-
+    window.draw_board_player(board)
     parameters = {"size":2, "pos" : (0,0), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
     def choose_boat(event):
-        x=event.x/10
+        x=event.x//10
         size = [5,4,3,3,2,2,2]
         parameters["size"] = size[x]
 
     def choose_position(event):
-        x=event.x/10
-        y=event.y/10
+        x=event.x/50
+        y=event.y/50
         parameters["pos"] = (x,y)
         parameters["state"] = (parameters["state"] + 1)%3
         if parameters["state"] == 1:
             boat = Boat(parameters["size"], parameters["pos"], False)
             if not board.valid_boat(boat):
                 parameters["state"] = 2
-            
-    def draw_boat(boat):
-        pass
+            else:
+                window.draw_board_player(board)
+                window.draw_boat(boat)
+        if parameters["state"] == 2:
+            boat = Boat(parameters["size"], parameters["pos"], True)
+            if not board.valid_boat(boat):
+                parameters["state"] = 0
+            else:
+                window.draw_board_player(board)
+                window.draw_boat(boat)
+        if parameters["state"] == 2:
+            window.draw_board_player(board)
+
             
 
 
@@ -40,23 +50,12 @@ def put_all_boats(window,board):
     
     window.canvas1.bind('<Button-1>', choose_position)
     window.canvas_remaining1.bind('<Button-1>', choose_boat)
+
+    window.root.mainloop()
     
     
-    while boat_remaining():
-        print(f"Il reste ces navires à poser: □□ :{dic[2]} □□□:{dic[3]} □□□□:{dic[4]} □□□□□:{dic[5]}")
-        board.show(False)
-        size, position, vertical = boat_input()
-        boat = Boat(size,position,vertical)
-        if dic[size] == 0:
-            print(f"Tous les navire de taille {size} ont déjà été posés. Choisissez une autre taile de navire")
-            continue
-        if not board.valid_boat(boat):
-            print("La position du navire est invalide.")
-            continue
-        else:
-          dic[size] -= 1
-          board.put_boat(boat)
-    print("Tous les navire ont été posés.")
+    
+       
 
 
 
@@ -64,33 +63,44 @@ def game():
     window = Graphics()
     board1 = Board()
     board2 = Board()
-    turn = 1
+    
+    draw_game = lambda : window.draw(board1,board2)
 
     board2.put_random_all_boats()
+    window.draw_board_opponnent(board2)
+    
     put_all_boats(window,board1)
+    
     run = True
     gagnant = -1
-
-    x = 0
-    y = 0
+    turn = 1
+    
+    pos = [-1,-1]
     def coordinates(event):
         x = event.x //50
         y = event.y //50
+        if x > 10:
+            x = -1
+        if y > 10:
+            y = -1
+        pos[0] = x
+        pos[1] = y
         
     window.canvas2.bind('<Button-1>', coordinates)
+    draw_game()
     
     while run and gagnant == -1:
-        window.draw_board_player(board1)
-        window.draw_board_opponnent(board2)
         
         if turn == 1:
-            
+            if pos[0] == -1 or pos[1] == -1:
+                continue
+            x,y = pos[0], pos[1]
             board2.shoot((x,y))
-            time.sleep(1)
-
+            
             if board2.lost():
                 gagnant = 1
-            
+            window.draw(board1,board2)
+            turn = 2
         else:
             x = randint(0,9)
             y = randint(0,9)
@@ -98,7 +108,10 @@ def game():
             time.sleep(1)
             if board1.lost():
                 gagnant = 2
+            turn = 1
+            window.draw(board1,board2)
         time.sleep(1)
+        window.root.mainloop()
         
         
         
