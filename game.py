@@ -12,12 +12,13 @@ def validate(event,board,parameters):
     vertical = True if parameters["state"] == 2 else False
     boat = Boat(size,pos,vertical)
     board.put_boat(boat)
+    parameters["size"] = [5,4,3,3,2,2,2][len(board.boats)]
 def put_all_boats(window,board):
     window.draw_board_player(board)
 
-    parameters = {"size":2, "pos" : (-1,-1), "state" : 0}
+    parameters = {"size":5, "pos" : (-1,-1), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
-    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda : validate(board,parameters))
+    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda e : validate(e,board,parameters))
     
     
 
@@ -47,16 +48,11 @@ def put_all_boats(window,board):
         if parameters["state"] == 0:
             window.draw_board_player(board)
 
-            
-
-
-        
-    
     window.canvas1.bind('<Button-1>', choose_position)
-
     window.root.mainloop()
     
-    
+    while len(board.boats) <7:
+        time.sleep(1)
     
        
 
@@ -73,7 +69,6 @@ def game():
     window.draw_board_opponnent(board2)
     
     put_all_boats(window,board1)
-    
     run = True
     gagnant = -1
     turn = 1
