@@ -115,7 +115,7 @@ def game():
             else:
                 x = randint(0,9)
                 y = randint(0,9)
-                while board1[x][y] in [-2,-4]:
+                while board1.cells[x][y] in [-2,-4]:
                     x = randint(0,9)
                     y = randint(0,9)
                 
@@ -124,11 +124,12 @@ def game():
             if board1.cells[x][y] >= 0:
                 turn = 2
                 for (i,j) in [(-1,0),(1,0),(0,-1),(0,1)]:
-                    if (x+i,y+j) in ia_shoot:
+                    if board1._valid_cell((x+i,y+j)):
                         ia_hit.append((x+i,y+j))
                 
                 for (i,j) in [(-1,-1),(-1,1),(1,-1),(1,1)]:
-                    board1.shoot((x+i,y+j))
+                    if board1._valid_cell((x+i,y+j)):
+                        board1.shoot((x+i,y+j))
             board1.shoot((x,y))
         
             window.draw(board1,board2)
