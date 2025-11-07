@@ -11,7 +11,6 @@ class Graphics:
 
         self.root.columnconfigure(0,weight=10)
         self.root.columnconfigure(1,weight=10)
-        self.root.columnconfigure(2,weight=1 )
 
         
 
@@ -85,3 +84,8 @@ class Graphics:
         button.place(x=x,y=y)
 
         self.button_validate = button
+    def delete_canvas(self):
+        self.canvas1.destroy()
+        self.canvas2.destroy()
+        self.canvas_remaining1.destroy()
+        self.canvas_remaining2.destroy()

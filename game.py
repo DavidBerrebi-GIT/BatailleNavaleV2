@@ -99,6 +99,7 @@ def game():
         if board2.lost():
             gagnant = 1
             window.canvas2.unbind('<Button-1>')
+            window.root.quit()
         if turn == 1:
             return
     
@@ -129,6 +130,7 @@ def game():
             if board1.lost():
                 gagnant = 2
                 window.canvas2.unbind('<Button-1>')
+                window.root.quit()
 
             time.sleep(0.1)
 
