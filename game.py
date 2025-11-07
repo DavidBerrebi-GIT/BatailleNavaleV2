@@ -4,7 +4,7 @@ from random import randint
 from graphics import Graphics
 import time
 
-def validate(event,board,parameters):
+def validate(board,parameters):
     if parameters["state"] == 0:
         return
     size = parameters["size"]
@@ -18,7 +18,7 @@ def put_all_boats(window,board):
 
     parameters = {"size":5, "pos" : (-1,-1), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
-    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda e : validate(e,board,parameters))
+    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda e : validate(board,parameters))
     
     
 
@@ -30,7 +30,6 @@ def put_all_boats(window,board):
             parameters["state"] = (parameters["state"] + 1)%3
         else:
             parameters["pos"] = (x,y)
-            parameters["state"] = 1
         if parameters["state"] == 1:
             boat = Boat(parameters["size"], parameters["pos"], False)
             if not board.valid_boat(boat):
