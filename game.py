@@ -4,7 +4,7 @@ from random import randint
 from graphics import Graphics
 import time
 
-def validate(board,parameters):
+def validate(window,board,parameters):
     if parameters["state"] == 0:
         return
     size = parameters["size"]
@@ -12,13 +12,17 @@ def validate(board,parameters):
     vertical = True if parameters["state"] == 2 else False
     boat = Boat(size,pos,vertical)
     board.put_boat(boat)
-    parameters["size"] = [5,4,3,3,2,2,2][len(board.boats)]
+    parameters["size"] = [5,4,3,3,2,2,2,2][len(board.boats)]
+    parameters["state"] = 0
+    window.draw_board_player(board)
+
+
 def put_all_boats(window,board):
     window.draw_board_player(board)
 
     parameters = {"size":5, "pos" : (-1,-1), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
-    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda e : validate(board,parameters))
+    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda : validate(window,board,parameters))
     
     
 
@@ -27,9 +31,10 @@ def put_all_boats(window,board):
         y=event.x//50
         if parameters["pos"] == (x,y):
             parameters["pos"] = (x,y)
-            parameters["state"] = (parameters["state"] + 1)%3
+            parameters["state"] = 2 if parameters["state"] == 1 else 1
         else:
             parameters["pos"] = (x,y)
+            parameters["state"] = 1 if parameters["state"] == 0 else parameters["state"]
         if parameters["state"] == 1:
             boat = Boat(parameters["size"], parameters["pos"], False)
             if not board.valid_boat(boat):
@@ -50,8 +55,10 @@ def put_all_boats(window,board):
     window.canvas1.bind('<Button-1>', choose_position)
     window.root.mainloop()
     
+    print("just before while section")
     while len(board.boats) <7:
         time.sleep(1)
+    print("out of put all boats")
     
        
 
