@@ -1,6 +1,7 @@
 from board import Board
 from boat import Boat
 from random import randint
+from random import choice
 from graphics import Graphics
 import time
 
@@ -15,8 +16,12 @@ def validate(window,board,parameters):
     window.draw_board_player(board)
     if len(board.boats) == 7:
         window.root.quit()
+        window.button_validate.destroy()
+        window.canvas1.unbind('<Button-1>')
+
     parameters["size"] = [5,4,3,3,2,2,2,2][len(board.boats)]
     parameters["state"] = 0
+
     
 
 
@@ -26,7 +31,7 @@ def put_all_boats(window,board):
 
     parameters = {"size":5, "pos" : (-1,-1), "state" : 0}
     #Trois etats, 0 non placé, 1 horizontale, 2 verticale
-    button_validate = window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda : validate(window,board,parameters))
+    window.create_button(window.canvas_remaining1,450,0,6,10,"Valider",lambda : validate(window,board,parameters))
     
     
 
@@ -75,52 +80,69 @@ def game():
     window.draw_board_opponnent(board2)
     
     put_all_boats(window,board1)
-    print("out of put all boats")
+   
 
-    run = True
     gagnant = -1
     turn = 1
     
-    pos = [-1,-1]
-    def coordinates(event):
-        x = event.x //50
-        y = event.y //50
-        if x > 10:
-            x = -1
-        if y > 10:
-            y = -1
-        pos[0] = x
-        pos[1] = y
+
+    def coordinates(event,turn):
+        global gagnant
+        if turn == 2:
+            return
+        x = event.y //50
+        y = event.x //50
         
-    window.canvas2.bind('<Button-1>', coordinates)
+        turn = 1 if board2.cells[x][y] >= 0 else 2
+        board2.shoot((x,y))  
+        window.draw(board1,board2)  
+        if board2.lost():
+            gagnant = 1
+            window.canvas2.unbind('<Button-1>')
+        if turn == 1:
+            return
+    
+        while turn == 2:
+            x,y=0,0
+            if ia_hit:
+                x,y = choice(ia_hit)
+                ia_hit.remove((x,y))
+            else:
+                x,y = choice(ia_shoot)
+                ia_shoot.remove((x,y))
+            
+            turn = 1 
+            if board1.cells[x][y] >= 0:
+                turn = 2
+                for (i,j) in [(-1,0),(1,0),(0,-1),(0,1)]:
+                    if (x+i,y+j) in ia_shoot:
+                        ia_hit.append((x+i,y+j))
+                
+                for (i,j) in [(-1,-1),(-1,1),(1,-1),(1,1)]:
+                    if (x+i,y+j) in ia_shoot:
+                        ia_shoot.remove((x+i,y+j))
+                    if (x+i,y+j) in ia_hit:
+                        ia_hit.remove((x+i,y+j))
+            board1.shoot((x,y))
+        
+            window.draw(board1,board2)
+            
+            if board1.lost():
+                gagnant = 2
+                window.canvas2.unbind('<Button-1>')
+
+            time.sleep(0.1)
+
+    
+    ia_hit = []
+        
+
+
+        
+    window.canvas2.bind('<Button-1>',lambda e: coordinates(e,turn))
     draw_game()
     window.root.mainloop()
     
-    while run and gagnant == -1:
-        
-        if turn == 1:
-            if pos[0] == -1 or pos[1] == -1:
-                continue
-            x,y = pos[0], pos[1]
-            board2.shoot((x,y))
-            
-            if board2.lost():
-                gagnant = 1
-            window.draw(board1,board2)
-            turn = 2
-        else:
-            x = randint(0,9)
-            y = randint(0,9)
-            board1.shoot((x,y))
-            time.sleep(1)
-            if board1.lost():
-                gagnant = 2
-            turn = 1
-            window.draw(board1,board2)
-        time.sleep(1)
-        window.root.mainloop()
-        
-        
         
     if gagnant == 1:
         print("Bravo, vous avez remporté la bataille")

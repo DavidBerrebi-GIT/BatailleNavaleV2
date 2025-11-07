@@ -1,7 +1,7 @@
 import tkinter as tk
 
 class Graphics:
-    ColorChart = {-1: "#fafafa", -2 : "#1658b4", -3:"#1658b4", -4 : "#ed8106", 0: "#23a418" }
+    ColorChart = {-1: "#fafafa", -2 : "#1658b4", -3:"#6283b1", -4 : "#ed8106", 0: "#23a418" }
     board_cell_size = 50
     remaining_cell_size = 30
     def __init__(self):
@@ -37,8 +37,8 @@ class Graphics:
                 value = board.cells[i][j] 
                 if value >= 0:
                     value = 0
-                if value == -3:
-                    value = -1
+             #   if value == -3:
+             #      value = -1
                 fill =  Graphics.ColorChart[value]
                 self.draw_cell(self.canvas1,i,j,fill,size)
         self.canvas1.grid(column=0,row=0)
@@ -84,4 +84,4 @@ class Graphics:
         button = tk.Button(canvas,width=w, height = h, text=text, command=function,bg="#76dd8e")
         button.place(x=x,y=y)
 
-        return button
+        self.button_validate = button

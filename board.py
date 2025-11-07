@@ -126,3 +126,10 @@ class Board :
         for size in list_of_size:
             self.put_random_boat(size)
 
+    def available_for_shoot(self):
+        L = []
+        for i in range(10):
+            for j in range(10):
+                if self.cells[i][j] == -1:
+                    L.append((i,j))
+        return L
